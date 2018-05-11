@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "AlanWalk.markdown-toc",
+    "EditorConfig.editorconfig",
+    "eg2.tslint",
+    "esbenp.prettier-vscode",
+    "Orta.vscode-jest"
+  ]
+}
