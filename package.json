@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest"
+    "build": "tsc",
+    "test": "jest",
+    "benchmark": "npm t && npm run build && node benchmark.js"
   },
   "lint-staged": {
     "*.{ts,tsx}!api/src/generated/*.ts": [
@@ -24,7 +26,8 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}"
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/benchmark.*"
     ],
     "testMatch": [
       "**/*.spec.(ts|tsx)"
@@ -33,12 +36,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
     "@types/jest": "^22.2.3",
+    "@types/node": "^10.0.8",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "lint-staged": "^7.1.0",
     "prettier": "^1.12.1",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "benchmark": "^2.1.4"
   }
 }

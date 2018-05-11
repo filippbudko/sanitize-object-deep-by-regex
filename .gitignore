@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 .next
-*.js
-!preprocessor.js
 dist
 coverage
+/src/alt.spec.ts
+/src/alt.ts

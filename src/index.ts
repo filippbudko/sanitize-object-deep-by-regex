@@ -6,9 +6,9 @@ export interface SanitiseOptions {
 export function isBlacklisted(
   key: string,
   fullPath: string,
-  opts: SanitiseOptions,
+  keys: string[],
+  regex: RegExp[],
 ): boolean {
-  const { keys, regex } = opts;
   if (keys.includes(key)) {
     return true;
   }
@@ -22,25 +22,27 @@ export function isBlacklisted(
   return false;
 }
 
-export function sanitise(
+function _sanitise(
   obj,
-  opts: Partial<SanitiseOptions> = {},
-  path = '',
-): any {
-  const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
-
+  keys: string[],
+  regex: RegExp[],
+  replaceWith: string,
+  path: string,
+) {
   if (Array.isArray(obj)) {
     const newPath = path + '[]';
-    return obj.map(entry => sanitise(entry, opts, path));
+    return obj.map(entry =>
+      _sanitise(entry, keys, regex, replaceWith, newPath),
+    );
   }
   if (typeof obj === 'object') {
-    return Object.keys(obj).reduce((res, key) => {
+    return Object.keys(obj).reduce((res: object, key) => {
       const prefix = path ? `${path}.` : '';
       const fullPath = prefix + key;
 
-      const val = isBlacklisted(key, fullPath, { replaceWith, keys, regex })
+      const val = isBlacklisted(key, fullPath, keys, regex)
         ? replaceWith
-        : sanitise(obj[key], opts, fullPath);
+        : _sanitise(obj[key], keys, regex, replaceWith, fullPath);
 
       return {
         ...res,
@@ -48,8 +50,17 @@ export function sanitise(
       };
     }, {});
   }
-
   return obj;
+}
+
+export function sanitise(
+  obj,
+  opts: Partial<SanitiseOptions> = {},
+  path = '',
+): any {
+  const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
+
+  return _sanitise(obj, keys, regex, replaceWith, path);
 }
 
 export default sanitise;
