@@ -94,4 +94,77 @@ describe('sanitise', () => {
       });
     });
   });
+
+  describe('when using regex option', () => {
+    it('it can use regex to replace values', () => {
+      expect(
+        sanitise(
+          {
+            property1: 'value1',
+            password: 'p4ssw0rd',
+            email: 'hello@example.com',
+          },
+          {
+            regex: [/^email$/i, /^password$/i],
+          },
+        ),
+      ).toEqual({
+        property1: 'value1',
+        password: '[redacted]',
+        email: '[redacted]',
+      });
+    });
+
+    it('it can use regex to replace deeply', () => {
+      expect(
+        sanitise(
+          {
+            property1: 'value1',
+            password: 'p4ssw0rd',
+            email: 'hello@example.com',
+            deep: {
+              nested: {
+                array: [
+                  {
+                    email: 'hello@example.com',
+                    pAssword: 'p4ssw0rd',
+                    values: ['value1'],
+                  },
+                ],
+              },
+              headers: {
+                Authorization: 'hello',
+              },
+            },
+          },
+          {
+            regex: [
+              //
+              /(^|\.)password$/i,
+              /(^|\.)email$/i,
+              /(^|\.)headers\.authorization$/i,
+            ],
+          },
+        ),
+      ).toEqual({
+        property1: 'value1',
+        password: '[redacted]',
+        email: '[redacted]',
+        deep: {
+          nested: {
+            array: [
+              {
+                email: '[redacted]',
+                pAssword: '[redacted]',
+                values: ['value1'],
+              },
+            ],
+          },
+          headers: {
+            Authorization: '[redacted]',
+          },
+        },
+      });
+    });
+  });
 });
