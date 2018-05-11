@@ -6,10 +6,10 @@ export interface SanitiseOptions {
 export function isBlacklisted(
   key: string,
   fullPath: string,
-  keys: string[],
+  keys: Set<string>,
   regex: RegExp[],
 ): boolean {
-  if (keys.includes(key)) {
+  if (keys.has(key)) {
     return true;
   }
 
@@ -24,7 +24,7 @@ export function isBlacklisted(
 
 function _sanitise(
   obj,
-  keys: string[],
+  keys: Set<string>,
   regex: RegExp[],
   replaceWith: string,
   path: string,
@@ -60,7 +60,7 @@ export function sanitise(
 ): any {
   const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
 
-  return _sanitise(obj, keys, regex, replaceWith, path);
+  return _sanitise(obj, new Set(keys), regex, replaceWith, path);
 }
 
 export default sanitise;

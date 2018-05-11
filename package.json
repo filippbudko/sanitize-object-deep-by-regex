@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "benchmark": "npm t && npm run build && node benchmark.js"
+    "benchmark": "npm t && npm run build && node benchmark.js",
+    "benchmark:watch": "nodemon --watch src -e ts --exec npm run benchmark",
+    "perf:init": "rm -f src/alt.* && cp src/index.ts src/alt.ts && cp src/index.spec.ts src/alt.spec.ts"
   },
   "lint-staged": {
     "*.{ts,tsx}!api/src/generated/*.ts": [
@@ -42,6 +44,7 @@
     "husky": "^0.14.3",
     "jest": "^22.4.3",
     "lint-staged": "^7.1.0",
+    "nodemon": "^1.17.4",
     "prettier": "^1.12.1",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"

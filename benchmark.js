@@ -16,6 +16,29 @@ const input = {
           pAssword: 'p4ssw0rd',
           values: ['value1'],
         },
+        {
+          email: 'hello@example.com',
+          pAssword: 'p4ssw0rd',
+          values: ['value1'],
+        },
+        {
+          email: 'hello@example.com',
+          pAssword: 'p4ssw0rd',
+          values: [
+            'value1',
+            {
+              email: 'hello@example.com',
+              pAssword: 'p4ssw0rd',
+              values: ['value1'],
+            },
+          ],
+        },
+        {
+          email: 'hello@example.com',
+          pAssword: 'p4ssw0rd',
+          values: ['value1'],
+          secrets: ['1', '2', '3'],
+        },
       ],
     },
     password: 'p4ssw0rd',
@@ -24,7 +47,7 @@ const input = {
     },
   },
 };
-const keys = ['password'];
+const keys = ['password', 'secrets'];
 const regex = [
   /(^|\.)password$/i,
   /(^|\.)email$/i,
