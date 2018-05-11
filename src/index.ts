@@ -42,7 +42,10 @@ export function sanitise(
         ? replaceWith
         : sanitise(obj[key], opts, fullPath);
 
-      return Object.assign({}, res, { [key]: val });
+      return {
+        ...res,
+        [key]: val,
+      };
     }, {});
   }
 
