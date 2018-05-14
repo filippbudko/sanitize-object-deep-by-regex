@@ -51,7 +51,9 @@ function _sanitise(
   if (typeof obj === 'object') {
     const newObj: any = {};
     seenObjects.set(obj, newObj);
-    return Object.keys(obj).reduce((res, key) => {
+
+    // tslint:disable-next-line:forin
+    for (const key in obj) {
       const prefix = path ? `${path}.` : '';
       const fullPath = prefix + key;
 
@@ -59,9 +61,9 @@ function _sanitise(
         ? replaceWith
         : _sanitise(obj[key], keys, regex, replaceWith, fullPath, seenObjects);
 
-      res[key] = val;
-      return res;
-    }, newObj);
+      newObj[key] = val;
+    }
+    return newObj;
   }
 
   return obj;
