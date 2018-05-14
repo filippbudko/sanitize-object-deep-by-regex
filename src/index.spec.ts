@@ -167,4 +167,44 @@ describe('sanitise', () => {
       });
     });
   });
+
+  describe('when having an object with circular reference', () => {
+    const arrRef = [
+      'circle',
+      {
+        password: 'p4ssw0rd',
+      },
+    ];
+    const circularArray = [];
+    circularArray.push({
+      password: 'p4ssw0rd',
+    });
+    circularArray.push(circularArray);
+    const obj: any = {
+      password: 'p4ssw0rd',
+      arrRef,
+      arrRefDuplicate: arrRef,
+      circularArray,
+    };
+    obj.circular = obj;
+
+    it('does not crash', () => {
+      sanitise(obj, {
+        keys: ['password'],
+      });
+    });
+
+    it('builds a new circular object', () => {
+      const res = sanitise(obj, {
+        keys: ['password'],
+      });
+
+      expect(res).toBe(res.circular);
+
+      expect(res.arrRef).toEqual(['circle', { password: '[redacted]' }]);
+      expect(res.arrRef).toBe(res.arrRefDuplicate);
+
+      expect(res.circularArray).toBe(res.circularArray[1]);
+    });
+  });
 });

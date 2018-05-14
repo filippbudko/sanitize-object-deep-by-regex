@@ -28,28 +28,42 @@ function _sanitise(
   regex: RegExp[],
   replaceWith: string,
   path: string,
+  seenObjects: WeakMap<any, any>,
 ) {
+  if (seenObjects.has(obj)) {
+    return seenObjects.get(obj);
+  }
+
   if (Array.isArray(obj)) {
     const newPath = path + '[]';
-    return obj.map(entry =>
-      _sanitise(entry, keys, regex, replaceWith, newPath),
-    );
+    const newArray = [];
+    seenObjects.set(obj, newArray);
+
+    obj.forEach(entry => {
+      newArray.push(
+        _sanitise(entry, keys, regex, replaceWith, newPath, seenObjects),
+      );
+    });
+
+    return newArray;
   }
+
   if (typeof obj === 'object') {
-    return Object.keys(obj).reduce((res: object, key) => {
+    const newObj: any = {};
+    seenObjects.set(obj, newObj);
+    return Object.keys(obj).reduce((res, key) => {
       const prefix = path ? `${path}.` : '';
       const fullPath = prefix + key;
 
       const val = isBlacklisted(key, fullPath, keys, regex)
         ? replaceWith
-        : _sanitise(obj[key], keys, regex, replaceWith, fullPath);
+        : _sanitise(obj[key], keys, regex, replaceWith, fullPath, seenObjects);
 
-      return {
-        ...res,
-        [key]: val,
-      };
-    }, {});
+      res[key] = val;
+      return res;
+    }, newObj);
   }
+
   return obj;
 }
 
@@ -59,8 +73,9 @@ export function sanitise(
   path = '',
 ): any {
   const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
+  const seenObjects = new WeakMap<any, any>();
 
-  return _sanitise(obj, new Set(keys), regex, replaceWith, path);
+  return _sanitise(obj, new Set(keys), regex, replaceWith, path, seenObjects);
 }
 
 export default sanitise;
