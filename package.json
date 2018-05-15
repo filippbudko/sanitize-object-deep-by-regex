@@ -2,6 +2,7 @@
   "name": "sanitize-object-deep-by-regex",
   "version": "1.0.0",
   "description": "",
+  "repository": "github:KATT/sanitize-object-deep-by-regex",
   "main": "dist/index.js",
   "files": [
     "dist/index.d.ts",
