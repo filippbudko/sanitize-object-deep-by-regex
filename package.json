@@ -34,10 +34,10 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
-      "!src/**/benchmark.*"
+      "!**/**.d.ts"
     ],
     "testMatch": [
-      "**/*.spec.(ts|tsx)"
+      "**/*.spec.(ts|tsx|js|jsx)"
     ]
   },
   "author": "",
