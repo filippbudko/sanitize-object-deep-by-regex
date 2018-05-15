@@ -9,7 +9,7 @@
     "dist/index.js"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "test": "jest",
     "benchmark": "npm t && npm run build && node benchmark.js",
     "benchmark:watch": "nodemon --watch src -e ts --exec npm run benchmark",
@@ -51,6 +51,7 @@
     "lint-staged": "7.1.0",
     "nodemon": "1.17.4",
     "prettier": "1.12.1",
+    "rimraf": "^2.6.2",
     "tslint": "5.10.0",
     "typescript": "2.8.3"
   },
