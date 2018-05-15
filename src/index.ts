@@ -36,12 +36,17 @@ function _sanitise(
 
   if (Array.isArray(obj)) {
     const newPath = path + '[]';
-    const newArray = [];
+    const newArray = new Array(obj.length);
     seenObjects.set(obj, newArray);
 
-    obj.forEach(entry => {
-      newArray.push(
-        _sanitise(entry, keys, regex, replaceWith, newPath, seenObjects),
+    obj.forEach((entry, index) => {
+      newArray[index] = _sanitise(
+        entry,
+        keys,
+        regex,
+        replaceWith,
+        newPath,
+        seenObjects,
       );
     });
 
