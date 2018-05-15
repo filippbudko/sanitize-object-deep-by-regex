@@ -1,4 +1,4 @@
-export interface SanitiseOptions {
+export interface SanitizeOptions {
   keys: string[];
   regex: RegExp[];
   replaceWith: string;
@@ -22,7 +22,7 @@ export function isBlacklisted(
   return false;
 }
 
-function _sanitise(
+function _sanitize(
   obj,
   keys: Set<string>,
   regex: RegExp[],
@@ -40,7 +40,7 @@ function _sanitise(
     seenObjects.set(obj, newArray);
 
     obj.forEach((entry, index) => {
-      newArray[index] = _sanitise(
+      newArray[index] = _sanitize(
         entry,
         keys,
         regex,
@@ -64,7 +64,7 @@ function _sanitise(
 
       const val = isBlacklisted(key, fullPath, keys, regex)
         ? replaceWith
-        : _sanitise(obj[key], keys, regex, replaceWith, fullPath, seenObjects);
+        : _sanitize(obj[key], keys, regex, replaceWith, fullPath, seenObjects);
 
       newObj[key] = val;
     }
@@ -74,15 +74,15 @@ function _sanitise(
   return obj;
 }
 
-export function sanitise(
+export function sanitize(
   obj,
-  opts: Partial<SanitiseOptions> = {},
+  opts: Partial<SanitizeOptions> = {},
   path = '',
 ): any {
   const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
   const seenObjects = new WeakMap<any, any>();
 
-  return _sanitise(obj, new Set(keys), regex, replaceWith, path, seenObjects);
+  return _sanitize(obj, new Set(keys), regex, replaceWith, path, seenObjects);
 }
 
-export default sanitise;
+export default sanitize;

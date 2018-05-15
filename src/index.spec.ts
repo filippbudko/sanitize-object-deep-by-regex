@@ -1,8 +1,8 @@
-import sanitise from './index';
+import sanitize from './index';
 
-describe('sanitise', () => {
+describe('sanitize', () => {
   it('is a function', () => {
-    expect(typeof sanitise).toBe('function');
+    expect(typeof sanitize).toBe('function');
   });
 
   describe('when used without any opts', () => {
@@ -14,8 +14,8 @@ describe('sanitise', () => {
     };
 
     it('returns object without changes', () => {
-      const sanitised = sanitise(obj);
-      expect(sanitised).toEqual({
+      const sanitized = sanitize(obj);
+      expect(sanitized).toEqual({
         property1: 'value1',
         property2: {
           withEmail: 'hello@example.com',
@@ -30,15 +30,15 @@ describe('sanitise', () => {
       password: 'p4ssw0rd',
       email: 'hello@example.com',
     };
-    let sanitised;
+    let sanitized;
     beforeAll(() => {
-      sanitised = sanitise(obj, {
+      sanitized = sanitize(obj, {
         keys: ['password', 'email'],
       });
     });
 
     it('replaces the values for those keys with [redacted]', () => {
-      expect(sanitised).toEqual({
+      expect(sanitized).toEqual({
         property1: 'value1',
         password: '[redacted]',
         email: '[redacted]',
@@ -46,7 +46,7 @@ describe('sanitise', () => {
     });
 
     it('does not mutate the input obj', () => {
-      expect(sanitised).not.toEqual(obj);
+      expect(sanitized).not.toEqual(obj);
       expect(obj.password).toEqual('p4ssw0rd');
     });
   });
@@ -68,15 +68,15 @@ describe('sanitise', () => {
         },
       },
     };
-    let sanitised;
+    let sanitized;
     beforeAll(() => {
-      sanitised = sanitise(obj, {
+      sanitized = sanitize(obj, {
         keys: ['password', 'email'],
       });
     });
 
     it('allows us to mask strings & keys keys', () => {
-      expect(sanitised).toEqual({
+      expect(sanitized).toEqual({
         property1: 'value1',
         password: '[redacted]',
         email: '[redacted]',
@@ -98,7 +98,7 @@ describe('sanitise', () => {
   describe('when using regex option', () => {
     it('it can use regex to replace values', () => {
       expect(
-        sanitise(
+        sanitize(
           {
             property1: 'value1',
             password: 'p4ssw0rd',
@@ -117,7 +117,7 @@ describe('sanitise', () => {
 
     it('it can use regex to replace deeply', () => {
       expect(
-        sanitise(
+        sanitize(
           {
             property1: 'value1',
             password: 'p4ssw0rd',
@@ -189,13 +189,13 @@ describe('sanitise', () => {
     obj.circular = obj;
 
     it('does not crash', () => {
-      sanitise(obj, {
+      sanitize(obj, {
         keys: ['password'],
       });
     });
 
     it('builds a new circular object', () => {
-      const res = sanitise(obj, {
+      const res = sanitize(obj, {
         keys: ['password'],
       });
 
