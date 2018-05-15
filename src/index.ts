@@ -1,8 +1,9 @@
-export interface SanitizeOptions {
+export interface ISanitizeOptions {
   keys: string[];
   regex: RegExp[];
   replaceWith: string;
 }
+
 export function isBlacklisted(
   key: string,
   fullPath: string,
@@ -76,7 +77,7 @@ function _sanitize(
 
 export function sanitize(
   obj,
-  opts: Partial<SanitizeOptions> = {},
+  opts: Partial<ISanitizeOptions> = {},
   path = '',
 ): any {
   const { replaceWith = '[redacted]', keys = [], regex = [] } = opts;
