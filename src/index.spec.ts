@@ -135,6 +135,12 @@ describe('sanitize', () => {
               headers: {
                 Authorization: 'hello',
               },
+              items: [
+                {
+                  secret: 'meep',
+                  notSecret: 'hello',
+                },
+              ],
             },
           },
           {
@@ -143,6 +149,7 @@ describe('sanitize', () => {
               /(^|\.)password$/i,
               /(^|\.)email$/i,
               /(^|\.)headers\.authorization$/i,
+              /(^|\.)items\[\]\.secret$/i,
             ],
           },
         ),
@@ -163,6 +170,12 @@ describe('sanitize', () => {
           headers: {
             Authorization: '[redacted]',
           },
+          items: [
+            {
+              secret: '[redacted]',
+              notSecret: 'hello',
+            },
+          ],
         },
       });
     });
