@@ -45,7 +45,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/benchmark": "1.0.31",
-    "@types/jest": "23.3.2",
+    "@types/jest": "23.3.3",
     "@types/node": "10.11.3",
     "benchmark": "2.1.4",
     "husky": "1.1.0",
