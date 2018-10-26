@@ -51,7 +51,7 @@
     "husky": "1.1.2",
     "jest": "23.6.0",
     "lint-staged": "7.3.0",
-    "nodemon": "1.18.4",
+    "nodemon": "1.18.5",
     "prettier": "1.14.3",
     "rimraf": "2.6.2",
     "tslint": "5.11.0",
