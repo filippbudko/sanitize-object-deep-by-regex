@@ -48,7 +48,7 @@
     "@types/jest": "26.0.22",
     "@types/node": "10.17.56",
     "benchmark": "2.1.4",
-    "husky": "5.2.0",
+    "husky": "6.0.0",
     "jest": "24.9.0",
     "lint-staged": "10.5.4",
     "nodemon": "2.0.7",
