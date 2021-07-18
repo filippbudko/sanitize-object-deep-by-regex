@@ -10,7 +10,7 @@ jobs:
 
     docker:
       # specify the version you desire here
-      - image: circleci/node:16.5@sha256:532daf5dff40b1cef302ca8f7dbb207ba2e5748c59c3f6237a154b9ea0012285
+      - image: circleci/node:16.5@sha256:4c66a7adbd280a01896736b1ad37f14d6328836c196a7bba9000f142adcd4f94
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
