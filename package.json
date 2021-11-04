@@ -45,11 +45,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/benchmark": "2.1.1",
-    "@types/jest": "26.0.24",
+    "@types/jest": "27.0.2",
     "@types/node": "16.11.6",
     "benchmark": "2.1.4",
     "husky": "7.0.4",
-    "jest": "26.6.3",
+    "jest": "27.3.1",
     "lint-staged": "11.2.6",
     "nodemon": "2.0.14",
     "prettier": "2.4.1",
